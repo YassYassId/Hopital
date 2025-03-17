@@ -40,7 +40,7 @@
                     <a
                             th:href="@{/index(page=${status.index}, keyword=${keyword})}"
                             th:class="${currentPage==status.index ? 'btn btn-info ms-1' : 'ms-1 btn btn-outline-info'}"
-                            th:text="${status.index}"></a>
+                            th:text="${1+status.index}"></a>
                 </li>
             </ul>
         </div>
