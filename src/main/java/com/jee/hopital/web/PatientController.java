@@ -2,11 +2,13 @@ package com.jee.hopital.web;
 
 import com.jee.hopital.entities.Patient;
 import com.jee.hopital.repository.PatientRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,9 +52,22 @@ public class PatientController {
     }
 
     @PostMapping("/save")
-    public String save(Model model, Patient patient) {
+    public String save(Model model, @Valid Patient patient, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "formPatients";
+        }
         patientRepository.save(patient);
         return "redirect:/index";
+    }
+
+    @GetMapping("/editPatient")
+    public String editPatient(Model model, Long id) {
+        Patient patient = patientRepository.findById(id).orElse(null);
+        if (patient == null) {
+            throw new RuntimeException("Patient not found");
+        }
+        model.addAttribute("patient", patient);
+        return "editPatient";
     }
 
 }
