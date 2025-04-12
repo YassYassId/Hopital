@@ -34,8 +34,8 @@
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                    [Username]
+                <a class="nav-link dropdown-toggle" href="#"
+                   role="button" data-bs-toggle="dropdown" th:text="${#authentication.name}">
                 </a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
