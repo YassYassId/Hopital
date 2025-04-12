@@ -33,11 +33,16 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(authorize ->
                         authorize
+                                .requestMatchers("/webjars/**").permitAll()
                                 .requestMatchers("/user/**").hasRole("USER")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.accessDeniedPage("/notAuthorized")
+                )
+                .formLogin(formLogin ->
+                        formLogin.loginPage("/login").permitAll())
                 .httpBasic(Customizer.withDefaults());;
         return httpSecurity.build();
     }
