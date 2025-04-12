@@ -24,7 +24,7 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(
                 User.withUsername("user").password(passwordEncoder.encode("password")).roles("USER").build(),
                 User.withUsername("user2").password(passwordEncoder.encode("password")).roles("USER").build(),
-                User.withUsername("admin").password(passwordEncoder.encode("admin")).roles("USER, ADMIN").build()
+                User.withUsername("admin").password(passwordEncoder.encode("admin")).roles("USER", "ADMIN").build()
         );
     }
 
@@ -32,7 +32,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(authorize ->
-                        authorize.anyRequest().authenticated()
+                        authorize
+                                .requestMatchers("/user/**").hasRole("USER")
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());;

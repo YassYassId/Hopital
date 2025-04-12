@@ -13,7 +13,7 @@
             <div class="card">
                 <div class="card-header">Liste des patients</div>
                 <div class="card-body">
-                    <form method="get" th:action="@{/index}">
+                    <form method="get" th:action="@{/user/index}">
                         <div>
                             <label>Keyword</label>
                             <input type="text" name="keyword" th:value="${keyword}">
@@ -33,10 +33,10 @@
                             <td th:text="${p.score}"></td>
                             <td>
                                 <a onclick="javascript:return confirm('Etes vous sure?')"
-                                   th:href="@{delete(id=${p.id},keyword=${keyword}, page=${currentPage})}" class="btn btn-danger">Delete</a>
+                                   th:href="@{/admin/delete(id=${p.id},keyword=${keyword}, page=${currentPage})}" class="btn btn-danger">Delete</a>
                             </td>
                             <td>
-                                <a th:href="@{editPatient(id=${p.id},keyword=${keyword}, page=${currentPage})}" class="btn btn-success">Edit</a>
+                                <a th:href="@{/admin/editPatient(id=${p.id},keyword=${keyword}, page=${currentPage})}" class="btn btn-success">Edit</a>
                             </td>
                         </tr>
                         </thead>
@@ -44,7 +44,7 @@
                     <ul class="nav nav-pills">
                         <li th:each="page,status:${pages}">
                             <a
-                                    th:href="@{/index(page=${status.index}, keyword=${keyword})}"
+                                    th:href="@{/user/index(page=${status.index}, keyword=${keyword})}"
                                     th:class="${currentPage==status.index ? 'btn btn-info ms-1' : 'ms-1 btn btn-outline-info'}"
                                     th:text="${1+status.index}"></a>
                         </li>
