@@ -11,7 +11,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -22,6 +25,13 @@ public class SecurityConfig {
     private PasswordEncoder passwordEncoder;
 
     @Bean
+    public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
+
+        return new JdbcUserDetailsManager(dataSource);
+    }
+
+
+//    @Bean
     public InMemoryUserDetailsManager userDetailsManager() {
         return new InMemoryUserDetailsManager(
                 User.withUsername("user").password(passwordEncoder.encode("password")).roles("USER").build(),
@@ -44,7 +54,7 @@ public class SecurityConfig {
                         exceptionHandling.accessDeniedPage("/notAuthorized")
                 )
                 .formLogin(formLogin ->
-                        formLogin.loginPage("/login").permitAll())
+                        formLogin.loginPage("/login").defaultSuccessUrl("/" , true).permitAll())
                 .httpBasic(Customizer.withDefaults());;
         return httpSecurity.build();
     }
