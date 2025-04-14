@@ -1,4 +1,4 @@
-package com.jee.hopital.web;
+package com.jee.hopital.service;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

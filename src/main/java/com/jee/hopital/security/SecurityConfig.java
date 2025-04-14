@@ -1,5 +1,6 @@
 package com.jee.hopital.security;
 
+import com.jee.hopital.security.service.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -23,8 +25,11 @@ public class SecurityConfig {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserDetailServiceImpl userDetailService;
 
-    @Bean
+
+//    @Bean
     public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
 
         return new JdbcUserDetailsManager(dataSource);
@@ -50,6 +55,7 @@ public class SecurityConfig {
 //                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
+                .userDetailsService(userDetailService)
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.accessDeniedPage("/notAuthorized")
                 )

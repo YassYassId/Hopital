@@ -2,6 +2,7 @@ package com.jee.hopital;
 
 import com.jee.hopital.entities.Patient;
 import com.jee.hopital.repository.PatientRepository;
+import com.jee.hopital.security.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -37,7 +38,24 @@ public class HopitalApplication {
         };
     }
 
+
     @Bean
+    public CommandLineRunner commandLineRunner(AccountService accountService) {
+        return args -> {
+            accountService.addNewRole("ADMIN");
+            accountService.addNewRole("USER");
+            accountService.addNewUser("user1","user1@gmail.com","1234","1234");
+            accountService.addNewUser("user2","user2@gmail.com","1234","1234");
+            accountService.addNewUser("admin","admin@gmail.com","admin","admin");
+
+            accountService.addRoleToUser("user1","USER");
+            accountService.addRoleToUser("user2","USER");
+            accountService.addRoleToUser("admin","USER");
+            accountService.addRoleToUser("admin","ADMIN");
+        };
+    }
+
+//    @Bean
     CommandLineRunner commandLineRunner(JdbcUserDetailsManager jdbcUserDetailsManager) {
         PasswordEncoder passwordEncoder = passwordEncoder();
         return args -> {

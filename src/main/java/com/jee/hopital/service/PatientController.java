@@ -1,4 +1,4 @@
-package com.jee.hopital.web;
+package com.jee.hopital.service;
 
 import com.jee.hopital.entities.Patient;
 import com.jee.hopital.repository.PatientRepository;
@@ -13,8 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 @AllArgsConstructor

@@ -19,7 +19,7 @@ public class Patient {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty
-    @Size(min = 4, max = 40)
+    @Column(length = 200)
     private String nom;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
